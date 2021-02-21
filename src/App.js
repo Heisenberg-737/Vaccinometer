@@ -45,6 +45,11 @@ function App() {
               path="/manufacturer/history"
               component={History}
             />
+            <PrivateRoute
+              exact
+              path="/hospital/history"
+              component={History}
+            />
             <Route exact path="/know_your_vaccine">
               <Know_Your_Vaccine />
             </Route>

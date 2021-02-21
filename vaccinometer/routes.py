@@ -4,7 +4,7 @@ from vaccinometer.models import User, Vaccine, Info, db
 from vaccinometer import app
 import datetime
 from datetime import timedelta
-from block import addVaccine, addCenter
+from block import addVaccine, addCenter, getMedCenterInfo, getVaccineInfo
 import random
 
 # Frontend Routes
@@ -25,42 +25,49 @@ def catch_login():
     return app.send_static_file('index.html')
 
 
-@app.route('/public', methods=["GET", "POST"])
-def catch_public():
-    return app.send_static_file('index.html')
-
-
-@app.route('/dashboard', methods=["GET", "POST"])
-def catch_dashboard():
-    return app.send_static_file('index.html')
-
-
-@app.route('/updateprofile', methods=["GET", "POST"])
-def catch_updateprofile():
-    return app.send_static_file('index.html')
-
-
 @app.route('/manufacturer', methods=["GET", "POST"])
 def catch_manufacturer():
     return app.send_static_file('index.html')
 
 
-@app.route('/createshipment', methods=["GET", "POST"])
-def catch_createshipment():
+@app.route('/hospital', methods=["GET", "POST"])
+def catch_hospital():
     return app.send_static_file('index.html')
 
 
-@app.route('/forgotpassword', methods=["GET", "POST"])
-def catch_forgotpassword():
+@app.route('/manufacturer/create_record', methods=["GET", "POST"])
+def catch_createrecord():
+    return app.send_static_file('index.html')
+
+
+@app.route('/hospital/scan_vaccine', methods=["GET", "POST"])
+def catch_scanvaccine():
+    return app.send_static_file('index.html')
+
+
+@app.route('/manufacturer/history', methods=["GET", "POST"])
+def catch_history():
+    return app.send_static_file('index.html')
+
+
+@app.route('/know_your_vaccine', methods=["GET", "POST"])
+def catch_knowvaccine():
+    return app.send_static_file('index.html')
+
+
+@app.route('/hospital/history', methods=["GET", "POST"])
+def catch_hospital_history():
     return app.send_static_file('index.html')
 
 # Backend Routes
 
 
-@app.route('/backend/getprofilemanu/', methods=["GET"])
+@app.route('/backend/getprofilemanu', methods=["GET", "POST"])
 def get_profile_manufacturer():
     content = request.get_json()
     uid = content["uid"]
+    # print(content)
+    # uid = "glyosOgXEhPVgefmJ8fG9j162Ue2"
     row = User.query.filter(User.uid == uid).first()
 
     List = []
@@ -71,7 +78,7 @@ def get_profile_manufacturer():
     return json.dumps(List)
 
 
-@app.route('/backend/getprofilehosp/', methods=["GET"])
+@app.route('/backend/getprofilehosp', methods=["GET", "POST"])
 def get_profile_hospital():
     content = request.get_json()
     uid = content["uid"]
@@ -85,7 +92,7 @@ def get_profile_hospital():
     return json.dumps(List)
 
 
-@app.route('/backend/saveprofilemanu/', methods=["POST"])
+@app.route('/backend/saveprofilemanu', methods=["POST", "GET"])
 def save_profile_manufacturer():
     content = request.get_json()
     uid = content["uid"]
@@ -103,7 +110,7 @@ def save_profile_manufacturer():
     return 'New user added', 200
 
 
-@app.route('/backend/saveprofilehosp/', methods=["POST"])
+@app.route('/backend/saveprofilehosp', methods=["POST", "GET"])
 def save_profile_hospital():
     content = request.get_json()
     uid = content["uid"]
@@ -138,7 +145,7 @@ def vacCreate():
 
     product_id = random.randint(1000000, 9999999)
 
-    addVaccine(address, private_key, mrp, product_id, name, str(date), str(expiry))
+    addVaccine(address, private_key, product_id, name, str(date), str(expiry))
     product_id = str(product_id)
 
     List = []
@@ -149,6 +156,11 @@ def vacCreate():
                    mrp=mrp, date=date, expiry=expiry)
 
     db.session.add(vacc)
+    db.session.commit()
+
+    ret = Info(uid=uid, product_id=product_id, date=date)
+
+    db.session.add(ret)
     db.session.commit()
 
     return json.dumps(List)

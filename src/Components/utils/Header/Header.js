@@ -45,7 +45,7 @@ export const Header = () => {
     <div
       className="header"
       style={{
-        background: scrolled ? "transparent" : "#0cb09799",
+        background: scrolled ? "transparent" : "#0cb097",
         color: scrolled ? (route === "/" ? "#ffffff" : "#0cb097") : "#ffffff",
       }}
     >
@@ -109,7 +109,9 @@ export const Header = () => {
         {(route.includes("/manufacturer") || route.includes("/hospital")) && (
           <p>
             <Link
-              to="/manufacturer/history"
+              to={`/${
+                route.includes("/manufacturer") ? "manufacturer" : "hospital"
+              }/history`}
               style={{ color: "#0cb097", textDecoration: "none" }}
             >
               My History

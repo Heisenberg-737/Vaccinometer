@@ -151,7 +151,7 @@ export const Record_Block = (props) => {
               {props.detail.MRP}
             </div>
           </div>
-          <div
+          {/* <div
             style={{
               display: "flex",
               flex: "1",
@@ -166,7 +166,7 @@ export const Record_Block = (props) => {
             <div style={{ margin: "auto auto auto 0px" }}>
               {props.detail.private_key}
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

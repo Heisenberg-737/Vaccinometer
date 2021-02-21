@@ -7,15 +7,22 @@ import axios from "axios";
 export const Hospital = () => {
   const { currentUser } = useAuth();
   const [name, setName] = useState("");
-  useEffect(() => {
-    axios
-      .get("/backend/getprofilehosp", { uid: currentUser.uid })
-      .then((res) => {
-        console.log(res);
-        setName(res.data.name);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  axios
+    .post("/backend/getprofilehosp", { uid: currentUser.uid })
+    .then((res) => {
+      console.log(res);
+      setName(res.data[0].name);
+    })
+    .catch((err) => console.log(err));
+  // useEffect(() => {
+  //   axios
+  //     .post("/backend/getprofilehosp", { uid: currentUser.uid })
+  //     .then((res) => {
+  //       console.log(res);
+  //       setName(res.data.name);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
   return (
     <>
       <Header />

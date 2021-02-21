@@ -5,13 +5,16 @@
   margin: 90px 0px 0px 0px;
   padding: 30px;
   flex-direction: column;
-  height: 100vh;
+  /* height: 100vh; */
 }
+
 .hospital h1 {
   text-align: center;
   width: 100%;
   font-size: 4rem;
 }
+
 .hospital p {
-  margin: auto auto 10% auto;
+  margin: 30px;
+  font-size: 2rem;
 }
